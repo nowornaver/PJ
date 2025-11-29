@@ -16,21 +16,21 @@
 
 # 이미지 전처리
 
-동영상을 실행했을때의 이미지 입니다.
+동영상을 실행했을때의 이미지이다.
 
-- 차선의 왜곡을 없애기 위해서 bird_eye_view 를 사용해 이미지를 바꿔줍니다
+- 차선의 왜곡을 없애기 위해서 bird_eye_view 를 사용해 이미지를 바꿔준다.
 
 <img width="1278" height="752" alt="Screenshot from 2024-10-12 16-36-05" src="https://github.com/user-attachments/assets/c75703f0-1fee-4740-ad1d-fd7de7b99f14" />
 
 
-- HSV 필터를 사용해서 필요없는 이미지를 모두 제거합니다.
+- HSV 필터를 사용해서 필요없는 이미지를 모두 제거한다.
 - HSV 필터란?
     
-    아무 처리도 하지않은 이미지(동영상)필터는 RGB(Red , Green ,Blue ) 형태로 되어있습니다.
+    아무 처리도 하지않은 이미지(동영상)필터는 RGB(Red , Green ,Blue ) 형태로 되어있다.
     
     HSV 필터는 RGB가 아닌 HSV 로 바꿔서 보겠다는 것 입니다. 색조(hue) , 명도(Saturation) , 채도 (Value)
     
-    H가 일정한 범위를 갖는 순수한 색 정보를 가지고 있기 때문에 RGB보다 색을 쉽게 분류 할 수 있습니다.
+    H가 일정한 범위를 갖는 순수한 색 정보를 가지고 있기 때문에 RGB보다 색을 쉽게 분류 했다.
     
 <img width="1278" height="760" alt="Screenshot from 2024-10-12 16-36-13" src="https://github.com/user-attachments/assets/2516d0a5-026b-4792-a955-ef3e6265ac3f" />
 
@@ -41,7 +41,7 @@
 
 # 슬라이딩 윈도우
 
-## 목적:이미지 전처리 과정을 통해 남긴 차선의 좌표를 얻기위함.
+## 목적:이미지 전처리 과정을 통해 남긴 차선의 좌표를 얻기위함이다.
 
 - histogram
     <img width="966" height="317" alt="image (3)" src="https://github.com/user-attachments/assets/355ede1d-2b0f-46e5-96d3-693089cf8ab6" />
@@ -50,7 +50,7 @@
     히스토그램으로 보게되면 왼쪽 차선의 시작 위치 , 오른쪽 차선의 시작 위치를 알 수 있다.
     
 
-히스토그램으로 차선 시작 위치를 알아낸 뒤에 (시작위치,720) 부터 y값을 줄이기 시작하면서 무게 중심 값을 계산해 차선의 좌표를 알아냄
+히스토그램으로 차선 시작 위치를 알아낸 뒤에 (시작위치,720) 부터 y값을 줄이기 시작하면서 무게 중심 값을 계산해 차선의 좌표를 알아냈다.
 <img width="1284" height="755" alt="Screenshot from 2024-10-12 17-04-39" src="https://github.com/user-attachments/assets/9a58490d-1d07-4656-a980-3fb9d0abefa2" />
 
 
@@ -59,8 +59,8 @@
 슬라이딩 윈도우 방식으로 알아낸 차선의 좌표를 2차 다항식 형태로 피팅 한다.
 
 - 피팅 이유
-    1. 차선의 곡률을 계산하기 위함.
-    2. 후에 차선 데이터를 보정하기 위함.
+    1. 차선의 곡률을 계산하기 위함이다.
+    2. 후에 차선 데이터를 보정하기 위함이다.
     
 
 # Steering_angle(조향각)
@@ -91,7 +91,6 @@ tan^-1(L/R) 을 사용해서 조향각을 구한다.
 <img width="1295" height="773" alt="Screenshot from 2024-10-12 17-27-23" src="https://github.com/user-attachments/assets/8b1f151b-045e-4741-8f91-7ba43a655af3" />
 
 
-아직도 완벽하지 않았다.
 
 표준편차를 이용해서 필터링을 한번 더 거쳐준다.
 
@@ -114,8 +113,6 @@ tan^-1(L/R) 을 사용해서 조향각을 구한다.
 ## YOLO PV2
 
 저기 있는걸 모두 사용하더라도 밖에 나가보면 아예 차선 자체가 안보이는 경우가 많기 때문에 YOLO PV2 를 사용해서 환경에 대한 변화에 민감 하지 않게 만든다.
-
-- 책에 소개된 방법을 이용해 본인 컴퓨터에 맞는 cuda 를 설치해준다.
 - C++ 로 코드를 작성을 했다면 libtorch 를 다운한다.
 - libtorch 를 사용해서 [yolopv2.pt](http://yolopv2.pt) 파일을 [yolopv2.scripted.pt](http://yolopv2.scripted.pt) 파일로 바꿔준다.
 - libtorch 코드 및 사용법 https://pytorch.org/cppdocs/installing.html
