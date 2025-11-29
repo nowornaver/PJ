@@ -113,53 +113,7 @@ tan^-1(L/R) 을 사용해서 조향각을 구한다.
 ## YOLO PV2
 
 저기 있는걸 모두 사용하더라도 밖에 나가보면 아예 차선 자체가 안보이는 경우가 많기 때문에 YOLO PV2 를 사용해서 환경에 대한 변화에 민감 하지 않게 만든다.
-- C++ 로 코드를 작성을 했다면 libtorch 를 다운한다.
-- libtorch 를 사용해서 [yolopv2.pt](http://yolopv2.pt) 파일을 [yolopv2.scripted.pt](http://yolopv2.scripted.pt) 파일로 바꿔준다.
-- libtorch 코드 및 사용법 https://pytorch.org/cppdocs/installing.html
-- [yolopv2](http://yolopv2.scripted.pt) c++ 에서 사용하는 방법
 
-```jsx
-#include <torch/script.h> // LibTorch를 사용하기 위해 포함해야 함
-   try {
-        // yolopv2_scripted.pt 파일 경로를 지정
-        model = torch::jit::load("/home/adg/test/yolopv2_scripted.pt", torch::kCUDA); // CUDA로 로드
-    }
-    catch (const c10::Error& e) {
-        std::cerr << "Error loading the model\n";
-        return -1;
-    }
-     cv::resize(frame, frame, cv::Size(1280, 1280)); // YOLOPv2 입력 크기에 맞게 조정
-
-        torch::Tensor img_tensor = torch::from_blob(frame.data, {1, frame.rows, frame.cols, 3}, torch::kByte);
-        img_tensor = img_tensor.permute({0, 3, 1, 2}); // HWC to CHW
-        img_tensor = img_tensor.to(torch::kFloat).div(255.0); // 정규화
-        img_tensor = img_tensor.to(torch::kCUDA); // CUDA로 전환
-
-        // 모델 추론
-        std::vector<torch::jit::IValue> inputs;
-        inputs.push_back(img_tensor);
-
-        // 추론 실행
-        torch::jit::IValue output = model.forward(inputs);
-
-        // 출력이 Tuple인지 확인하고 각 요소를 처리
-        if (output.isTuple()) {
-            auto elements = output.toTuple()->elements();
-
-            // 요소 1: 객체 검출 정보일 가능성 있음
-            if (elements.size() > 1 && elements[1].isTensor()) {
-                at::Tensor detection_result = elements[1].toTensor();
-                // std::cout << "Output tensor 1 shape: " << detection_result.sizes() << "\n";
-
-                // 여기서 객체 검출 결과를 프레임에 시각화하는 후처리 추가 가능
-            }
-
-            // 요소 2: 세그멘테이션 정보일 가능성 있음
-            if (elements.size() > 2 && elements[2].isTensor()) {
-                at::Tensor segmentation_result = elements[2].toTensor();
-                // std::cout << "Output tensor 2 shape: " << segmentation_result.sizes() << "\n";
-
-```
 
 ## 카메라 하드웨어의 위치
 
